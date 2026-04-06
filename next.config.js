@@ -6,10 +6,6 @@ const nextConfig = {
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
     ],
   },
-  // Stripe webhook needs raw body
-  api: {
-    bodyParser: false,
-  },
 }
 
 module.exports = nextConfig
