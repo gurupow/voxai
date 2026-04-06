@@ -86,3 +86,27 @@
     overflow: hidden;
   }
 }
+
+@layer base {
+  /* Giriş kutularını (input/textarea) düzenle */
+  input, 
+  textarea, 
+  select {
+    color: #000000 !important; /* Yazılan metni siyah yapar */
+    background-color: #ffffff !important; /* Arka planın beyaz olduğundan emin olur */
+  }
+
+  /* Örnek metin (placeholder) görünürlüğü */
+  input::placeholder, 
+  textarea::placeholder {
+    color: #6b7280 !important; /* Daha koyu ve okunur bir gri (text-gray-500) */
+    opacity: 1 !important;
+  }
+
+  /* Odaklanıldığında (tıklandığında) oluşacak renkler */
+  input:focus, 
+  textarea:focus {
+    color: #000000 !important;
+    outline: 2px solid #7c3aed !important; /* Senin mor renginle uyumlu çerçeve */
+  }
+}
