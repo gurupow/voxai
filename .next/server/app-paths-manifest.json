@@ -1,6 +1,0 @@
-{
-  "/api/tts/route": "app/api/tts/route.js",
-  "/api/credits/route": "app/api/credits/route.js",
-  "/(dashboard)/studio/page": "app/(dashboard)/studio/page.js",
-  "/(dashboard)/billing/page": "app/(dashboard)/billing/page.js"
-}
