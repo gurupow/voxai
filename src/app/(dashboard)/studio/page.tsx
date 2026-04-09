@@ -189,7 +189,7 @@ export default function StudioPage() {
                     e.stopPropagation();
                     playPreview(v.preview);
                   }}
-                  className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-violet-500 hover:text-white transition-all ml-auto"
+                 className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-violet-600 hover:scale-110 transition-all ml-auto flex-shrink-0 cursor-pointer shadow-sm"
                 >
                   <Volume2 size={14} />
                 </div>
