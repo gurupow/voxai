@@ -70,3 +70,10 @@ export const OPENAI_VOICES = [
     previewUrl: 'https://cdn.openai.com/labs-site-assets/tts/shimmer.mp3'
   },
 ] as const
+// Bu kısmı dosyanın en altına ekle
+export const PLAN_LIMITS = {
+  FREE:       { chars: 30_000,  clonedVoices: 10, audioRetentionDays: 30 },
+  STARTER:    { chars: 100_000, clonedVoices: 10, audioRetentionDays: 30 },
+  PRO:        { chars: 500_000, clonedVoices: 10, audioRetentionDays: 90 },
+  ENTERPRISE: { chars: -1,      clonedVoices: -1, audioRetentionDays: -1 },
+} as const
