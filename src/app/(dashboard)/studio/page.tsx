@@ -1,37 +1,38 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Play, Pause, Download, Loader2, Zap, Settings2 } from 'lucide-react'
+import { Play, Pause, Download, Loader2, Zap, Settings2, Volume2 } from 'lucide-react'
 
+// Ses grupları ve önizleme linkleri eklendi
 const VOICE_GROUPS = [
   {
     label: 'OpenAI Sesleri',
     provider: 'OPENAI',
     voices: [
-      { id: 'alloy',   name: 'Alloy',   desc: 'Dengeli · Nötr',    gender: 'nötr',   color: 'bg-zinc-500' },
-      { id: 'echo',    name: 'Echo',    desc: 'Derin · Erkek',     gender: 'erkek',  color: 'bg-blue-500' },
-      { id: 'fable',   name: 'Fable',   desc: 'Sıcak · Anlatıcı', gender: 'erkek',  color: 'bg-amber-600' },
-      { id: 'onyx',    name: 'Onyx',    desc: 'Otoriter · Tok',    gender: 'erkek',  color: 'bg-zinc-800' },
-      { id: 'nova',    name: 'Nova',    desc: 'Enerjik · Kadın',   gender: 'kadın',  color: 'bg-violet-500' },
-      { id: 'shimmer', name: 'Shimmer', desc: 'Yumuşak · Zarif',   gender: 'kadın',  color: 'bg-pink-400' },
+      { id: 'alloy',   name: 'Alloy',   desc: 'Dengeli · Nötr',    gender: 'nötr',   color: 'bg-zinc-500', preview: 'https://cdn.openai.com/labs-site-assets/tts/alloy.mp3' },
+      { id: 'echo',    name: 'Echo',    desc: 'Derin · Erkek',     gender: 'erkek',  color: 'bg-blue-500', preview: 'https://cdn.openai.com/labs-site-assets/tts/echo.mp3' },
+      { id: 'fable',   name: 'Fable',   desc: 'Sıcak · Anlatıcı',  gender: 'erkek',  color: 'bg-amber-600', preview: 'https://cdn.openai.com/labs-site-assets/tts/fable.mp3' },
+      { id: 'onyx',    name: 'Onyx',    desc: 'Otoriter · Tok',    gender: 'erkek',  color: 'bg-zinc-800', preview: 'https://cdn.openai.com/labs-site-assets/tts/onyx.mp3' },
+      { id: 'nova',    name: 'Nova',    desc: 'Enerjik · Kadın',   gender: 'kadın',  color: 'bg-violet-500', preview: 'https://cdn.openai.com/labs-site-assets/tts/nova.mp3' },
+      { id: 'shimmer', name: 'Shimmer', desc: 'Yumuşak · Zarif',   gender: 'kadın',  color: 'bg-pink-400', preview: 'https://cdn.openai.com/labs-site-assets/tts/shimmer.mp3' },
     ],
   },
   {
     label: 'ElevenLabs Sesleri',
     provider: 'ELEVENLABS',
     voices: [
-      { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel',  desc: 'Sakin · Kadın',     gender: 'kadın',  color: 'bg-teal-500' },
-      { id: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi',    desc: 'Güçlü · Kadın',     gender: 'kadın',  color: 'bg-orange-500' },
-      { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella',   desc: 'Yumuşak · Kadın',   gender: 'kadın',  color: 'bg-rose-400' },
-      { id: 'ErXwobaYiN019PkySvjV', name: 'Antoni',  desc: 'Nazik · Erkek',     gender: 'erkek',  color: 'bg-emerald-500' },
-      { id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Elli',    desc: 'Sevimli · Kadın',   gender: 'kadın',  color: 'bg-yellow-400' },
-      { id: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh',    desc: 'Derin · Erkek',     gender: 'erkek',  color: 'bg-sky-600' },
-      { id: 'VR6AewLTigWG4xSOukaG', name: 'Arnold',  desc: 'Sert · Erkek',      gender: 'erkek',  color: 'bg-red-600' },
-      { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam',    desc: 'Anlatıcı · Erkek',  gender: 'erkek',  color: 'bg-indigo-500' },
-      { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam',     desc: 'Makul · Erkek',     gender: 'erkek',  color: 'bg-cyan-600' },
-      { id: 'jBpfuIE2acCO8z3wKNLl', name: 'Gigi',    desc: 'Çocuksu · Kadın',   gender: 'kadın',  color: 'bg-lime-400' },
-      { id: 'flq6f7yk4E4fJM5XTYuZ', name: 'Michael', desc: 'Olgun · Erkek',     gender: 'erkek',  color: 'bg-stone-500' },
-      { id: 'g5CIjZEefAph4nQFvHAz', name: 'Ethan',   desc: 'Genç · Erkek',      gender: 'erkek',  color: 'bg-purple-500' },
+      { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel',  desc: 'Sakin · Kadın',      gender: 'kadın',  color: 'bg-teal-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/21m00Tcm4TlvDq8ikWAM/6589255e-045a-4952-b9e7-59d48259d358.mp3' },
+      { id: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi',    desc: 'Güçlü · Kadın',      gender: 'kadın',  color: 'bg-orange-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/AZnzlk1XvdvUeBnXmlld/1917f694-5544-486a-8b36-79ef1c97a511.mp3' },
+      { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Bella',   desc: 'Yumuşak · Kadın',    gender: 'kadın',  color: 'bg-rose-400', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/EXAVITQu4vr4xnSDxMaL/31518b0c-a982-4115-9d18-9366df5766e4.mp3' },
+      { id: 'ErXwobaYiN019PkySvjV', name: 'Antoni',  desc: 'Nazik · Erkek',      gender: 'erkek',  color: 'bg-emerald-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/ErXwobaYiN019PkySvjV/68177579-2476-4a4b-8d7d-5a8274d758df.mp3' },
+      { id: 'MF3mGyEYCl7XYWbV9V6O', name: 'Elli',    desc: 'Sevimli · Kadın',    gender: 'kadın',  color: 'bg-yellow-400', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/MF3mGyEYCl7XYWbV9V6O/d935f8d9-3f7f-449e-b8ba-0a6b57904ca9.mp3' },
+      { id: 'TxGEqnHWrfWFTfGW9XjX', name: 'Josh',    desc: 'Derin · Erkek',      gender: 'erkek',  color: 'bg-sky-600', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/TxGEqnHWrfWFTfGW9XjX/a0e12d48-8424-4f9e-bc43-ca02c3a504a3.mp3' },
+      { id: 'VR6AewLTigWG4xSOukaG', name: 'Arnold',  desc: 'Sert · Erkek',       gender: 'erkek',  color: 'bg-red-600', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/VR6AewLTigWG4xSOukaG/c57c4f4a-28e6-424a-bb80-87729bc62751.mp3' },
+      { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam',    desc: 'Anlatıcı · Erkek',   gender: 'erkek',  color: 'bg-indigo-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/pNInz6obpgDQGcFmaJgB/48c82662-7f97-402a-9e6b-e8f00a501e4a.mp3' },
+      { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam',     desc: 'Makul · Erkek',      gender: 'erkek',  color: 'bg-cyan-600', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/yoZ06aMxZJJ28mfd3POQ/72790938-3485-485e-9f3b-6488d7dfb2d3.mp3' },
+      { id: 'jBpfuIE2acCO8z3wKNLl', name: 'Gigi',    desc: 'Çocuksu · Kadın',    gender: 'kadın',  color: 'bg-lime-400', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/jBpfuIE2acCO8z3wKNLl/8a0a9c8d-6d8c-4861-820c-c6f96603a105.mp3' },
+      { id: 'flq6f7yk4E4fJM5XTYuZ', name: 'Michael', desc: 'Olgun · Erkek',      gender: 'erkek',  color: 'bg-stone-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/flq6f7yk4E4fJM5XTYuZ/943d0010-0925-46b0-9854-41d37b036579.mp3' },
+      { id: 'g5CIjZEefAph4nQFvHAz', name: 'Ethan',   desc: 'Genç · Erkek',       gender: 'erkek',  color: 'bg-purple-500', preview: 'https://storage.googleapis.com/eleven-public-prod/previews/voices/g5CIjZEefAph4nQFvHAz/7858d447-97a7-4b7f-b808-8df0c6559092.mp3' },
     ],
   },
 ]
@@ -51,9 +52,20 @@ export default function StudioPage() {
   const [generationId, setGenerationId] = useState<string | null>(null)
   const [genderFilter, setGenderFilter] = useState<string>('hepsi')
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const previewAudioRef = useRef<HTMLAudioElement | null>(null)
 
   const charCount = text.length
   const MAX_CHARS = 5000
+
+  // Önizleme sesini çalma fonksiyonu
+  const playPreview = (url: string) => {
+    if (!url) return
+    if (previewAudioRef.current) {
+      previewAudioRef.current.pause()
+    }
+    previewAudioRef.current = new Audio(url)
+    previewAudioRef.current.play().catch(e => console.error("Önizleme hatası:", e))
+  }
 
   const generate = async () => {
     if (!text.trim() || loading) return
@@ -125,7 +137,7 @@ export default function StudioPage() {
                 }}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                   selectedProvider === g.provider
-                    ? 'bg-violet-600 text-white'
+                    ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/20'
                     : 'bg-white/4 text-zinc-400 hover:text-zinc-200 hover:bg-white/8'
                 }`}
               >
@@ -152,23 +164,34 @@ export default function StudioPage() {
           </div>
 
           {/* Voice grid */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2">
             {filteredVoices.map((v) => (
               <button
                 key={v.id}
                 onClick={() => setSelectedVoice(v.id)}
-                className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${
+                className={`group relative flex items-center gap-3 p-3 rounded-xl border text-left transition-all ${
                   selectedVoice === v.id
                     ? 'border-violet-500 bg-violet-500/10 text-violet-300'
                     : 'border-white/8 bg-white/3 text-zinc-400 hover:border-white/20 hover:text-zinc-200'
                 }`}
               >
-                <div className={`w-7 h-7 rounded-full ${v.color} flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold`}>
+                <div className={`w-8 h-8 rounded-full ${v.color} flex-shrink-0 flex items-center justify-center text-white text-[10px] font-bold shadow-inner`}>
                   {v.name[0]}
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="text-sm font-medium truncate">{v.name}</div>
                   <div className="text-[10px] opacity-60 truncate">{v.desc}</div>
+                </div>
+
+                {/* Dinle Butonu */}
+                <div 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playPreview(v.preview);
+                  }}
+                  className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-violet-500 hover:text-white transition-all ml-auto"
+                >
+                  <Volume2 size={14} />
                 </div>
               </button>
             ))}
@@ -217,7 +240,7 @@ export default function StudioPage() {
         <button
           onClick={generate}
           disabled={!text.trim() || loading}
-          className="flex items-center justify-center gap-3 py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-emerald-600 text-white font-semibold text-base hover:opacity-90 active:scale-[0.99] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-3 py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-emerald-600 text-white font-semibold text-base hover:opacity-90 shadow-lg shadow-violet-600/10 active:scale-[0.99] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {loading ? <><Loader2 className="w-5 h-5 animate-spin" />Oluşturuluyor...</> : <><Zap className="w-5 h-5" />Sesi Oluştur</>}
         </button>
